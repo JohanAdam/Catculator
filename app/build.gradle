@@ -74,6 +74,7 @@ dependencies {
 //    implementation 'com.afollestad.material-dialogs:core:1.0.0'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 
+    //Debug db in chrome.
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     testImplementation 'junit:junit:4.12'

@@ -20,7 +20,7 @@ import java.util.List;
 public interface ValueItemDao {
 
   //Show all valueItems.
-  @Query("SELECT * FROM valueitem")
+  @Query("SELECT * FROM valueitem ORDER BY id DESC")
   List<ValueItem> getAll();
 
   //Insert all item.

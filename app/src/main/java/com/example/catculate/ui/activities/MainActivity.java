@@ -26,8 +26,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback;
 import com.example.catculate.R;
 import com.example.catculate.mvp.presenter.MainActivityPresenter;
-import com.example.catculate.mvp.view.MainActivityContract;
-import com.example.catculate.mvp.view.MainActivityContract.Presenter;
+import com.example.catculate.mvp.view.activities.MainActivityContract;
+import com.example.catculate.mvp.view.activities.MainActivityContract.Presenter;
 import com.example.catculate.root.BaseActivity;
 import com.example.catculate.services.ValueItemService;
 import com.example.catculate.ui.fragments.CheckFragment;
@@ -56,6 +56,8 @@ public class MainActivity extends BaseActivity implements MainActivityContract.V
 
   Presenter presenter;
 
+  ValueItemService dbService;
+
   @Override
   protected int getLayoutResourceId() {
     return R.layout.activity_main;
@@ -68,7 +70,7 @@ public class MainActivity extends BaseActivity implements MainActivityContract.V
 
     presenter = new MainActivityPresenter();
 
-    presenter.setView(this, sharedPreferencesManager, new ValueItemService());
+    presenter.setView(this, sharedPreferencesManager, getDbService());
 
     initView();
 
@@ -86,6 +88,13 @@ public class MainActivity extends BaseActivity implements MainActivityContract.V
 
   public SharedPreferencesManager getSharedPreferencesManager() {
     return sharedPreferencesManager;
+  }
+
+  public ValueItemService getDbService() {
+    if (dbService == null) {
+      dbService = new ValueItemService();
+    }
+    return dbService;
   }
 
   private void initView() {

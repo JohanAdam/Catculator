@@ -1,4 +1,4 @@
-package com.example.catculate.mvp.view;
+package com.example.catculate.mvp.view.activities;
 
 import com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback;
 import com.example.catculate.services.ValueItemService;

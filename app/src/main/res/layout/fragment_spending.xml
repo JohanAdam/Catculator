@@ -1,15 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".ui.fragments.SpendingFragment">
 
-  <!-- TODO: Update blank fragment layout -->
   <TextView
+    android:id="@+id/tv_total"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:text="Spending Fragment"/>
+    android:layout_marginTop="60dp"
+    android:fontFamily="sans-serif-light"
+    android:textSize="28sp"
+    android:text="2000"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.498"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="20000"/>
 
-</FrameLayout>
+  <android.support.v7.widget.RecyclerView
+    android:id="@+id/main_rv"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginTop="60dp"
+    android:layout_marginBottom="18dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    app:layout_constraintBottom_toTopOf="@+id/btn_plus"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tv_total"/>
+
+  <ImageButton
+    android:id="@+id/btn_plus"
+    android:layout_width="@dimen/btn_plus_minus"
+    android:layout_height="@dimen/btn_plus_minus"
+    android:layout_marginBottom="28dp"
+    android:layout_marginStart="28dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:src="@drawable/ic_plus"
+    android:scaleType="fitCenter"
+    android:padding="20dp"
+    android:background="@drawable/button_background_plus"
+    android:contentDescription="@string/desc_button_plus"/>
+
+  <ImageButton
+    android:id="@+id/btn_minus"
+    android:layout_width="@dimen/btn_plus_minus"
+    android:layout_height="@dimen/btn_plus_minus"
+    android:layout_marginBottom="28dp"
+    android:layout_marginEnd="28dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:src="@drawable/ic_remove"
+    android:scaleType="fitCenter"
+    android:padding="20dp"
+    android:background="@drawable/button_background_minus"
+    android:contentDescription="@string/desc_button_minus"/>
+
+  <ProgressBar
+    android:id="@+id/progressBar"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tv_total"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -8,4 +8,12 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
+  <style name="EditTextStyle">
+    <item name="android:textColor">@color/colorSecondary</item>
+    <item name="android:textColorHint">@color/colorSecondary</item>
+    <item name="colorControlNormal">#757575</item>
+    <item name="colorControlActivated">@color/colorSecondary</item>
+    <item name="colorControlHighlight">@color/colorSecondary</item>
+  </style>
+
 </resources>
