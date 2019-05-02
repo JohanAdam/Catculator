@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "462219904139",
+    "firebase_url": "https://catculate.firebaseio.com",
+    "project_id": "catculate",
+    "storage_bucket": "catculate.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462219904139:android:8e768323c7abaf69",
+        "android_client_info": {
+          "package_name": "com.example.catculate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462219904139-sso4a1tgujbk3vgfuhb80ldric0bflbd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.catculate",
+            "certificate_hash": "d4dfd6be934603a9f7ced7beb7f98a0a6309878a"
+          }
+        },
+        {
+          "client_id": "462219904139-6nvphidsvem2o3nve8c9lhhd80ga08nd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzSNuMy-q3YdHRFG0BUhvgiWcxYqBT5MA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "462219904139-6nvphidsvem2o3nve8c9lhhd80ga08nd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
