@@ -24,6 +24,8 @@ public interface SpendFragmentContract {
     void addListToView(List<ValueItem> list);
 
     void insertNewItem(ValueItem valueItem);
+
+    void setTotal(long total);
   }
 
   interface Presenter {
@@ -32,7 +34,9 @@ public interface SpendFragmentContract {
 
     void getList();
 
-    void insertItem(String desc, String price, int symbolic);
+    void insertItem(String desc, String price, int symbolic, String total);
+
+    void deleteItem(ValueItem data);
 
     void unSubscribe();
   }

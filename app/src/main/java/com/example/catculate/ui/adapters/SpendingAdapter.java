@@ -5,22 +5,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.catculate.Constants;
 import com.example.catculate.R;
 import com.example.catculate.data.entity.ValueItem;
-import com.example.catculate.ui.activities.MainActivity;
+import com.example.catculate.ui.fragments.SpendingFragment;
 import java.util.List;
 import timber.log.Timber;
 
 public class SpendingAdapter extends RecyclerView.Adapter<SpendingAdapter.ViewHolder> {
 
-  private final MainActivity mContext;
+  private final SpendingFragment mContext;
   private List<ValueItem> valueItems;
 
-  public SpendingAdapter(MainActivity activity, List<ValueItem> responses) {
+  public SpendingAdapter(SpendingFragment activity, List<ValueItem> responses) {
     this.mContext = activity;
     this.valueItems = responses;
   }
@@ -34,7 +35,7 @@ public class SpendingAdapter extends RecyclerView.Adapter<SpendingAdapter.ViewHo
   }
 
   @Override
-  public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+  public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
     final ValueItem data = valueItems.get(holder.getAdapterPosition());
     holder.bind(data);
 
@@ -42,6 +43,19 @@ public class SpendingAdapter extends RecyclerView.Adapter<SpendingAdapter.ViewHo
       @Override
       public void onClick(View v) {
 
+      }
+    });
+
+    holder.itemView.setOnLongClickListener(new OnLongClickListener() {
+      @Override
+      public boolean onLongClick(View v) {
+        //Remove from db.
+        mContext.getPresenter().deleteItem(data);
+        //Remove from list.
+        valueItems.remove(holder.getAdapterPosition());
+        //Remove from adapter.
+        notifyItemRemoved(holder.getAdapterPosition());
+        return false;
       }
     });
   }

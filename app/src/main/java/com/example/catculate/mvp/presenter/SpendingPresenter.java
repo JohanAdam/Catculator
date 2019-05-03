@@ -1,5 +1,6 @@
 package com.example.catculate.mvp.presenter;
 
+import com.example.catculate.Constants;
 import com.example.catculate.data.entity.ValueItem;
 import com.example.catculate.mvp.view.fragments.SpendFragmentContract.Presenter;
 import com.example.catculate.mvp.view.fragments.SpendFragmentContract.View;
@@ -40,16 +41,33 @@ public class SpendingPresenter implements Presenter {
     if (isViewAttached() && list != null) {
       view.removeWait();
 
+      view.addListToView(list);
+
+      long total = 0;
       if (list.size() > 0) {
-        view.addListToView(list);
+
+        //Get the total.
+        for (ValueItem item : list) {
+
+          if (item.getSymbolic() == Constants.SYMBOLIC_ADD) {
+            total =  total + item.getValue();
+          } else {
+            total = total - item.getValue();
+          }
+
+        }
+
+        view.setTotal(total);
+
       } else {
+        view.setTotal(0);
         view.showEmptyLayout();
       }
     }
   }
 
   @Override
-  public void insertItem(String desc, String price, int symbolic) {
+  public void insertItem(String desc, String price, int symbolic, String total) {
     Timber.d("insertItem desc " + desc + " price " + price);
 
     ValueItem valueItem = new ValueItem();
@@ -60,6 +78,21 @@ public class SpendingPresenter implements Presenter {
     dbService.saveItem(valueItem);
 
     view.insertNewItem(valueItem);
+
+    //Change total.
+    long totalLng = Long.parseLong(total);
+    if (symbolic == Constants.SYMBOLIC_ADD) {
+      totalLng = totalLng + Long.parseLong(price);
+    } else {
+      totalLng = totalLng - Long.parseLong(price);
+    }
+    view.setTotal(totalLng);
+  }
+
+  @Override
+  public void deleteItem(ValueItem data) {
+    Timber.d("delete Item ");
+    dbService.delete(data);
   }
 
   @Override

@@ -4,6 +4,7 @@ package com.example.catculate.ui.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +48,8 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
   View rootView;
   MainActivity activity;
   Presenter presenter;
+  SpendingAdapter mAdapter;
+  DialogPriceNew dialogPrice;
 
   public SpendingFragment() {
     // Required empty public constructor
@@ -82,6 +85,10 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
   public void onDestroyView() {
     super.onDestroyView();
     unbinder.unbind();
+  }
+
+  public Presenter getPresenter() {
+    return presenter;
   }
 
   private void initView() {
@@ -122,11 +129,22 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
   public void removeEmptyLayout() {
   }
 
-  SpendingAdapter mAdapter;
+  @Override
+  public void setTotal(long total) {
+//    String totalPrice = new PriceHelper().formatPrice(total);
+    String totalPrice = String.valueOf(total);
+    tvTotal.setText(totalPrice);
+    if (totalPrice.contains("-")) {
+      tvTotal.setTextColor(ContextCompat.getColor(activity, R.color.color_btn_minus_enable));
+    } else {
+      tvTotal.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
+    }
+  }
+
   @Override
   public void addListToView(List<ValueItem> list) {
     recyclerView.setVisibility(View.VISIBLE);
-    mAdapter = new SpendingAdapter(activity, list);
+    mAdapter = new SpendingAdapter(this, list);
     recyclerView.setItemAnimator(new DefaultItemAnimator());
     recyclerView.setAdapter(mAdapter);
     new RecyclerViewAnimation().rerunLayoutAnimation(recyclerView);
@@ -151,12 +169,11 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
     }
   }
 
-  DialogPriceNew dialogPrice;
   private void showDialog(final int type) {
     dialogPrice = new DialogPriceNew(activity, type, new DialogPriceNewCallback() {
       @Override
       public void onClick(String desc, String price, int type) {
-        presenter.insertItem(desc, price, type);
+        presenter.insertItem(desc, price, type, tvTotal.getText().toString());
       }
     });
 
