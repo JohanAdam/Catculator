@@ -1,15 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".ui.fragments.CheckFragment">
 
-  <!-- TODO: Update blank fragment layout -->
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:text="Check Fragment"/>
+  <android.support.constraint.ConstraintLayout
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-</FrameLayout>
+    <View
+      android:id="@+id/view10"
+      android:layout_width="0dp"
+      android:layout_height="3dp"
+      android:layout_marginStart="24dp"
+      android:layout_marginEnd="24dp"
+      android:background="@color/colorPrimary"
+      app:layout_constraintBottom_toBottomOf="@+id/title"
+      app:layout_constraintEnd_toStartOf="@+id/title"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/title"/>
+
+    <TextView
+      android:id="@+id/title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:text="@string/title_uncompleted"
+      android:textAllCaps="true"
+      app:layout_constraintEnd_toStartOf="@+id/view11"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/view10"
+      app:layout_constraintTop_toTopOf="parent"/>
+
+    <View
+      android:id="@+id/view11"
+      android:layout_width="0dp"
+      android:layout_height="3dp"
+      android:layout_marginStart="24dp"
+      android:layout_marginEnd="24dp"
+      android:background="@color/colorPrimary"
+      app:layout_constraintBottom_toBottomOf="@+id/title"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/title"
+      app:layout_constraintTop_toTopOf="@+id/title"/>
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/rv_main"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_marginTop="8dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      app:layout_constraintBottom_toTopOf="@+id/bottom_layout"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/title"/>
+
+    <ProgressBar
+      android:id="@+id/progressBar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
+
+    <android.support.v7.widget.CardView
+      android:id="@+id/bottom_layout"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_margin="10dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      app:cardBackgroundColor="@color/colorSecondary"
+      app:cardCornerRadius="10dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@+id/btn_reset"
+      app:layout_constraintStart_toStartOf="parent">
+
+      <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <TextView
+          android:id="@+id/tv_bottom_title"
+          android:textStyle="bold"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignParentStart="true"
+          android:layout_toStartOf="@id/tv_bottom_total"
+          android:fontFamily="sans-serif-light"
+          android:text="@string/title_uncompleted"
+          android:textSize="18sp"/>
+
+        <TextView
+          android:id="@+id/tv_bottom_total"
+          android:textStyle="bold"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:fontFamily="sans-serif-light"
+          android:textSize="18sp"
+          tools:text="9"/>
+
+      </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.design.widget.FloatingActionButton
+      android:id="@+id/btn_reset"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="8dp"
+      android:src="@drawable/ic_reset"
+      app:layout_constraintBottom_toBottomOf="@+id/bottom_layout"
+      app:layout_constraintEnd_toStartOf="@+id/btn_add"
+      app:layout_constraintTop_toTopOf="@+id/bottom_layout"/>
+
+    <android.support.design.widget.FloatingActionButton
+      android:id="@+id/btn_add"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="8dp"
+      android:src="@drawable/ic_plus"
+      app:layout_constraintBottom_toBottomOf="@+id/btn_reset"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/btn_reset"/>
+
+  </android.support.constraint.ConstraintLayout>
+
+  <!--<include-->
+    <!--layout="@layout/bottom_sheet"/>-->
+
+</android.support.design.widget.CoordinatorLayout>

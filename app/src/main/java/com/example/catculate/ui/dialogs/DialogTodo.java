@@ -10,20 +10,20 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.catculate.Constants;
+import com.afollestad.materialdialogs.MaterialDialog.Builder;
 import com.example.catculate.R;
-import timber.log.Timber;
+import com.example.catculate.data.entity.Todo;
 
-public class DialogPriceNew {
+public class DialogTodo {
 
   private Context context;
-  private int symbolic;
   private MaterialDialog dialog = null;
-  private DialogPriceNewCallback callback;
+  private Todo todo;
+  private DialogTodoCallback callback;
 
-  public DialogPriceNew(Context context, int symbolic, DialogPriceNewCallback callback) {
+  public DialogTodo(Context context, Todo item, DialogTodoCallback callback) {
     this.context = context;
-    this.symbolic = symbolic;
+    this.todo = item;
     this.callback = callback;
   }
 
@@ -31,8 +31,8 @@ public class DialogPriceNew {
 
     if (dialog == null) {
 
-      dialog = new MaterialDialog.Builder(context)
-          .customView(R.layout.dialog_add_minus, true)
+      dialog = new Builder(context)
+          .customView(R.layout.dialog_todo, true)
           .dismissListener(new OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dd) {
@@ -42,19 +42,19 @@ public class DialogPriceNew {
           .showListener(new OnShowListener() {
             @Override
             public void onShow(DialogInterface dd) {
-              Timber.d("onShow");
 
               final EditText etDesc = (EditText) dialog.findViewById(R.id.et_desc);
               final EditText etPrice = (EditText) dialog.findViewById(R.id.et_price);
               ImageButton btnSubmit = (ImageButton) dialog.findViewById(R.id.btn_submit);
 
-              btnSubmit.setBackground(symbolic == Constants.SYMBOLIC_ADD ?
-                  context.getResources().getDrawable(R.drawable.button_background_plus) :
-                  context.getResources().getDrawable(R.drawable.button_background_minus));
+              btnSubmit.setImageDrawable(context.getResources().getDrawable(
+                  todo == null ? R.drawable.ic_plus : R.drawable.ic_edit
+              ));
 
-              btnSubmit.setImageDrawable(symbolic == Constants.SYMBOLIC_ADD ?
-                  context.getResources().getDrawable(R.drawable.ic_plus) :
-                  context.getResources().getDrawable(R.drawable.ic_remove));
+              if (todo != null) {
+                etDesc.setText(todo.getDescrip());
+                etPrice.setText(String.valueOf(todo.getValue()));
+              }
 
               btnSubmit.setOnClickListener(new OnClickListener() {
                 @Override
@@ -69,7 +69,14 @@ public class DialogPriceNew {
                       dialog.dismiss();
                     }
 
-                    callback.onClick(desc, price, symbolic);
+                    if (todo == null) {
+                      todo = new Todo();
+                      todo.setChecked(false);
+                    }
+                    todo.setDescrip(desc);
+                    todo.setValue(Long.parseLong(price));
+
+                    callback.onClick(todo);
 
                   } else {
                     if (TextUtils.isEmpty(desc)) {
@@ -80,8 +87,10 @@ public class DialogPriceNew {
                       etPrice.setError("Please enter price!");
                     }
                   }
+
                 }
               });
+
 
             }
           })
@@ -98,8 +107,8 @@ public class DialogPriceNew {
     }
   }
 
-  public interface DialogPriceNewCallback {
-    void onClick(String desc, String price, int type);
+  public interface DialogTodoCallback {
+    void onClick(Todo todo);
   }
 
 }

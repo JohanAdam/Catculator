@@ -34,7 +34,9 @@ public interface SpendFragmentContract {
 
     void getList();
 
-    void insertItem(String desc, String price, int symbolic, String total);
+    void insertItem(String desc, String price, int symbolic);
+
+    void updateItem(ValueItem updatedData);
 
     void deleteItem(ValueItem data);
 

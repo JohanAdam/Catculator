@@ -27,7 +27,10 @@ import com.example.catculate.ui.activities.MainActivity;
 import com.example.catculate.ui.adapters.SpendingAdapter;
 import com.example.catculate.ui.dialogs.DialogPriceNew;
 import com.example.catculate.ui.dialogs.DialogPriceNew.DialogPriceNewCallback;
+import com.example.catculate.ui.dialogs.DialogPriceUpdate;
+import com.example.catculate.ui.dialogs.DialogPriceUpdate.DialogPriceUpdateCallback;
 import com.example.catculate.utils.RecyclerViewAnimation;
+import com.google.gson.Gson;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import timber.log.Timber;
@@ -49,7 +52,8 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
   MainActivity activity;
   Presenter presenter;
   SpendingAdapter mAdapter;
-  DialogPriceNew dialogPrice;
+  DialogPriceNew dialogPriceNew;
+  DialogPriceUpdate dialogPriceUpdate;
 
   public SpendingFragment() {
     // Required empty public constructor
@@ -74,7 +78,7 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
 
     presenter = new SpendingPresenter(this);
 
-    presenter.initPresenter(activity.getSharedPreferencesManager(), activity.getDbService());
+    presenter.initPresenter(activity.getSharedPreferencesManager(), activity.getValueItemDbService());
 
     presenter.getList();
 
@@ -85,6 +89,7 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
   public void onDestroyView() {
     super.onDestroyView();
     unbinder.unbind();
+    presenter.unSubscribe();
   }
 
   public Presenter getPresenter() {
@@ -170,14 +175,30 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
   }
 
   private void showDialog(final int type) {
-    dialogPrice = new DialogPriceNew(activity, type, new DialogPriceNewCallback() {
+    dialogPriceNew = new DialogPriceNew(activity, type, new DialogPriceNewCallback() {
       @Override
       public void onClick(String desc, String price, int type) {
-        presenter.insertItem(desc, price, type, tvTotal.getText().toString());
+        presenter.insertItem(desc, price, type);
       }
     });
 
-    dialogPrice.show();
+    dialogPriceNew.show();
   }
 
+  public void updateItem(final int updatedPosition, ValueItem data) {
+    Timber.d("updateItem %s", new Gson().toJson(data));
+
+    dialogPriceUpdate = new DialogPriceUpdate(activity, data, new DialogPriceUpdateCallback() {
+      @Override
+      public void onClick(ValueItem updatedData) {
+        Timber.d("onClick update data %s", new Gson().toJson(updatedData));
+        //Update in db.
+        presenter.updateItem(updatedData);
+        //Update in mAdapter.
+        mAdapter.updateItem(updatedPosition, updatedData);
+      }
+    });
+
+    dialogPriceUpdate.show();
+  }
 }

@@ -1,6 +1,7 @@
 package com.example.catculate.mvp.view.activities;
 
 import com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback;
+import com.example.catculate.services.TodoService;
 import com.example.catculate.services.ValueItemService;
 import com.example.catculate.utils.SharedPreferencesManager;
 
@@ -14,7 +15,8 @@ public interface MainActivityContract {
   }
 
   interface Presenter {
-    void setView(View view, SharedPreferencesManager sharedPreferencesManager, ValueItemService service);
+    void setView(View view, SharedPreferencesManager sharedPreferencesManager,
+        ValueItemService service, TodoService todoService);
     void seedExampleData();
   }
 

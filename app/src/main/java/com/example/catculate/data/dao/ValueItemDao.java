@@ -39,17 +39,12 @@ public interface ValueItemDao {
   @Update
   void updateItem(ValueItem valueItem);
 
-  //Update description item.
-  @Query("UPDATE valueitem SET description = :newDesc WHERE id = :id")
-  void updateDesc(int id, String newDesc);
+  //Update by query.
+  @Query("UPDATE valueitem SET description = :newDesc, value = :newValue, symbolic = :newSymbol WHERE id = :id")
+  void updateItem(int id, String newDesc, String newValue, int newSymbol);
 
-  //Update value item.
-  @Query("UPDATE valueitem SET value = :newValue WHERE id = :id")
-  void updateValue(int id, long newValue);
-
-  //Update symbol.
-  @Query("UPDATE valueitem SET symbolic = :newSymbol WHERE id = :id")
-  void updateSymbol(int id, int newSymbol);
-
+  //Get sum total.
+  @Query("SELECT SUM(value) FROM valueitem WHERE symbolic = :symbol")
+  long getSum(int symbol);
 
 }

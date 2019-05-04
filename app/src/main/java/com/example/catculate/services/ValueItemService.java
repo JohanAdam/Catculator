@@ -1,5 +1,6 @@
 package com.example.catculate.services;
 
+import com.example.catculate.Constants;
 import com.example.catculate.data.database.ValueItemDatabase;
 import com.example.catculate.data.entity.ValueItem;
 import com.google.gson.Gson;
@@ -49,6 +50,12 @@ public class ValueItemService {
   public void delete(ValueItem valueItem) {
     Timber.d("delete " + new Gson().toJson(valueItem));
     valueItemDatabase.valueItemDao().deleteItem(valueItem);
+  }
+
+
+  public long getTotal() {
+    Timber.d("getTotal");
+    return valueItemDatabase.valueItemDao().getSum(Constants.SYMBOLIC_ADD) - valueItemDatabase.valueItemDao().getSum(Constants.SYMBOLIC_MINUS);
   }
 
   /**

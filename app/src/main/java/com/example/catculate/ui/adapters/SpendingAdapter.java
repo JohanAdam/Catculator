@@ -13,16 +13,17 @@ import com.example.catculate.Constants;
 import com.example.catculate.R;
 import com.example.catculate.data.entity.ValueItem;
 import com.example.catculate.ui.fragments.SpendingFragment;
+import com.google.gson.Gson;
 import java.util.List;
 import timber.log.Timber;
 
 public class SpendingAdapter extends RecyclerView.Adapter<SpendingAdapter.ViewHolder> {
 
-  private final SpendingFragment mContext;
+  private final SpendingFragment fragment;
   private List<ValueItem> valueItems;
 
   public SpendingAdapter(SpendingFragment activity, List<ValueItem> responses) {
-    this.mContext = activity;
+    this.fragment = activity;
     this.valueItems = responses;
   }
 
@@ -42,7 +43,7 @@ public class SpendingAdapter extends RecyclerView.Adapter<SpendingAdapter.ViewHo
     holder.itemView.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-
+        fragment.updateItem(holder.getAdapterPosition(), data);
       }
     });
 
@@ -50,7 +51,7 @@ public class SpendingAdapter extends RecyclerView.Adapter<SpendingAdapter.ViewHo
       @Override
       public boolean onLongClick(View v) {
         //Remove from db.
-        mContext.getPresenter().deleteItem(data);
+        fragment.getPresenter().deleteItem(data);
         //Remove from list.
         valueItems.remove(holder.getAdapterPosition());
         //Remove from adapter.
@@ -81,6 +82,14 @@ public class SpendingAdapter extends RecyclerView.Adapter<SpendingAdapter.ViewHo
     notifyItemInserted(0);
   }
 
+  public void updateItem(int updatedPosition, ValueItem updatedData) {
+    Timber.d("updatedItem " + new Gson().toJson(updatedData));
+    //Updated in list.
+    valueItems.set(updatedPosition, updatedData);
+    //Update in view.
+    notifyItemChanged(updatedPosition);
+  }
+
   public class ViewHolder extends RecyclerView.ViewHolder {
 
     final TextView tvDesc;
@@ -98,9 +107,9 @@ public class SpendingAdapter extends RecyclerView.Adapter<SpendingAdapter.ViewHo
       tvPrice.setText(String.valueOf(data.getValue()));
       tvDesc.setText(data.getDescrip());
       if (data.getSymbolic() == Constants.SYMBOLIC_MINUS) {
-        ivSymbol.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_remove));
+        ivSymbol.setImageDrawable(fragment.getResources().getDrawable(R.drawable.ic_remove));
       } else if (data.getSymbolic() == Constants.SYMBOLIC_ADD) {
-        ivSymbol.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_plus));
+        ivSymbol.setImageDrawable(fragment.getResources().getDrawable(R.drawable.ic_plus));
       }
     }
   }

@@ -25,15 +25,19 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback;
 import com.example.catculate.R;
+import com.example.catculate.data.entity.Todo;
 import com.example.catculate.mvp.presenter.MainActivityPresenter;
 import com.example.catculate.mvp.view.activities.MainActivityContract;
 import com.example.catculate.mvp.view.activities.MainActivityContract.Presenter;
 import com.example.catculate.root.BaseActivity;
+import com.example.catculate.services.TodoService;
 import com.example.catculate.services.ValueItemService;
 import com.example.catculate.ui.fragments.CheckFragment;
 import com.example.catculate.ui.fragments.DashboardFragment;
 import com.example.catculate.ui.fragments.SpendingFragment;
 import com.example.catculate.utils.SharedPreferencesManager;
+import com.google.gson.Gson;
+import java.util.List;
 import javax.inject.Inject;
 import timber.log.Timber;
 
@@ -56,7 +60,8 @@ public class MainActivity extends BaseActivity implements MainActivityContract.V
 
   Presenter presenter;
 
-  ValueItemService dbService;
+  ValueItemService valueItemDbService;
+  TodoService todoDbService;
 
   @Override
   protected int getLayoutResourceId() {
@@ -70,14 +75,14 @@ public class MainActivity extends BaseActivity implements MainActivityContract.V
 
     presenter = new MainActivityPresenter();
 
-    presenter.setView(this, sharedPreferencesManager, getDbService());
+    presenter.setView(this, sharedPreferencesManager, getValueItemDbService(), getTodoDbService());
 
     initView();
 
 //    presenter.seedExampleData();
-//    List<ValueItem> list = new ValueItemService().getAll();
-//    Timber.d("Local list is size " + list.size());
-//    Timber.d("Local list is " + new Gson().toJson(list));
+    List<Todo> list = new TodoService().getAll();
+    Timber.d("Local list is size " + list.size());
+    Timber.d("Local list is " + new Gson().toJson(list));
 
   }
 
@@ -90,11 +95,18 @@ public class MainActivity extends BaseActivity implements MainActivityContract.V
     return sharedPreferencesManager;
   }
 
-  public ValueItemService getDbService() {
-    if (dbService == null) {
-      dbService = new ValueItemService();
+  public ValueItemService getValueItemDbService() {
+    if (valueItemDbService == null) {
+      valueItemDbService = new ValueItemService();
     }
-    return dbService;
+    return valueItemDbService;
+  }
+
+  public TodoService getTodoDbService() {
+    if (todoDbService == null) {
+      todoDbService = new TodoService();
+    }
+    return todoDbService;
   }
 
   private void initView() {

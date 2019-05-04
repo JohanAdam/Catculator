@@ -1,11 +1,11 @@
 package com.example.catculate.mvp.presenter;
 
-import com.example.catculate.Constants;
 import com.example.catculate.data.entity.ValueItem;
 import com.example.catculate.mvp.view.fragments.SpendFragmentContract.Presenter;
 import com.example.catculate.mvp.view.fragments.SpendFragmentContract.View;
 import com.example.catculate.services.ValueItemService;
 import com.example.catculate.utils.SharedPreferencesManager;
+import com.google.gson.Gson;
 import java.util.List;
 import timber.log.Timber;
 
@@ -14,6 +14,7 @@ public class SpendingPresenter implements Presenter {
   private View view;
   private SharedPreferencesManager sharedPrefs;
   private ValueItemService dbService;
+//  private long currentTotal = 0;
 
   public SpendingPresenter(View view) {
     this.view = view;
@@ -30,6 +31,10 @@ public class SpendingPresenter implements Presenter {
     return view != null;
   }
 
+  private long getTotal() {
+    return dbService.getTotal();
+  }
+
   @Override
   public void getList() {
     Timber.d("getList");
@@ -38,27 +43,13 @@ public class SpendingPresenter implements Presenter {
 
     List<ValueItem> list = dbService.getAll();
 
-    if (isViewAttached() && list != null) {
-      view.removeWait();
+    view.removeWait();
 
+    if (isViewAttached() && list != null) {
       view.addListToView(list);
 
-      long total = 0;
       if (list.size() > 0) {
-
-        //Get the total.
-        for (ValueItem item : list) {
-
-          if (item.getSymbolic() == Constants.SYMBOLIC_ADD) {
-            total =  total + item.getValue();
-          } else {
-            total = total - item.getValue();
-          }
-
-        }
-
-        view.setTotal(total);
-
+        view.setTotal(getTotal());
       } else {
         view.setTotal(0);
         view.showEmptyLayout();
@@ -67,7 +58,7 @@ public class SpendingPresenter implements Presenter {
   }
 
   @Override
-  public void insertItem(String desc, String price, int symbolic, String total) {
+  public void insertItem(String desc, String price, int symbolic) {
     Timber.d("insertItem desc " + desc + " price " + price);
 
     ValueItem valueItem = new ValueItem();
@@ -80,23 +71,28 @@ public class SpendingPresenter implements Presenter {
     view.insertNewItem(valueItem);
 
     //Change total.
-    long totalLng = Long.parseLong(total);
-    if (symbolic == Constants.SYMBOLIC_ADD) {
-      totalLng = totalLng + Long.parseLong(price);
-    } else {
-      totalLng = totalLng - Long.parseLong(price);
-    }
-    view.setTotal(totalLng);
+    view.setTotal(getTotal());
+  }
+
+  @Override
+  public void updateItem(ValueItem updatedData) {
+    Timber.d("updateItem " + new Gson().toJson(updatedData));
+    dbService.updateItem(updatedData);
+
+    view.setTotal(getTotal());
   }
 
   @Override
   public void deleteItem(ValueItem data) {
     Timber.d("delete Item ");
     dbService.delete(data);
+    //Update total.
+    view.setTotal(getTotal());
   }
 
   @Override
   public void unSubscribe() {
+    dbService.removeService();
     view = null;
   }
 }

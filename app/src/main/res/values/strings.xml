@@ -9,4 +9,6 @@
   <string name="title_loading">Loading...</string>
   <string name="desc_button_plus">Button Plus</string>
   <string name="desc_button_minus">Button Minus</string>
+  <string name="title_uncompleted">Uncompleted</string>
+  <string name="title_completed">Completed</string>
 </resources>
