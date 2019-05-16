@@ -31,6 +31,9 @@ import com.example.catculate.ui.dialogs.DialogPriceUpdate;
 import com.example.catculate.ui.dialogs.DialogPriceUpdate.DialogPriceUpdateCallback;
 import com.example.catculate.utils.RecyclerViewAnimation;
 import com.google.gson.Gson;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import timber.log.Timber;
@@ -46,6 +49,8 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
   RecyclerView recyclerView;
   @BindView(R.id.progressBar)
   ProgressBar progressBar;
+  @BindView(R.id.tv_date)
+  TextView tvDate;
   Unbinder unbinder;
 
   View rootView;
@@ -78,7 +83,8 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
 
     presenter = new SpendingPresenter(this);
 
-    presenter.initPresenter(activity.getSharedPreferencesManager(), activity.getValueItemDbService());
+    presenter
+        .initPresenter(activity.getSharedPreferencesManager(), activity.getValueItemDbService());
 
     presenter.getList();
 
@@ -102,6 +108,11 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
     recyclerView.setLayoutManager(linearLayoutManager);
 
+    Date c = Calendar.getInstance().getTime();
+
+    SimpleDateFormat df = new SimpleDateFormat("dd MMM");
+    String formattedDate = df.format(c);
+    tvDate.setText(formattedDate);
   }
 
   @Override

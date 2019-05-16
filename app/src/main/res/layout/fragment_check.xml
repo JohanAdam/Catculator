@@ -5,6 +5,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:background="@color/colorPrimary"
   tools:context=".ui.fragments.CheckFragment">
 
   <android.support.constraint.ConstraintLayout
@@ -18,7 +19,7 @@
       android:layout_height="3dp"
       android:layout_marginStart="24dp"
       android:layout_marginEnd="24dp"
-      android:background="@color/colorPrimary"
+      android:background="@color/colorPrimaryDark"
       app:layout_constraintBottom_toBottomOf="@+id/title"
       app:layout_constraintEnd_toStartOf="@+id/title"
       app:layout_constraintHorizontal_bias="0.5"
@@ -32,6 +33,7 @@
       android:layout_marginTop="8dp"
       android:text="@string/title_uncompleted"
       android:textAllCaps="true"
+      android:textColor="@color/colorSubSecondary"
       app:layout_constraintEnd_toStartOf="@+id/view11"
       app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toEndOf="@+id/view10"
@@ -43,7 +45,7 @@
       android:layout_height="3dp"
       android:layout_marginStart="24dp"
       android:layout_marginEnd="24dp"
-      android:background="@color/colorPrimary"
+      android:background="@color/colorPrimaryDark"
       app:layout_constraintBottom_toBottomOf="@+id/title"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.5"
@@ -80,7 +82,7 @@
       android:layout_marginBottom="8dp"
       android:layout_marginStart="8dp"
       android:layout_marginEnd="8dp"
-      app:cardBackgroundColor="@color/colorSecondary"
+      app:cardBackgroundColor="@color/colorPrimaryDark"
       app:cardCornerRadius="10dp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toStartOf="@+id/btn_reset"
@@ -100,7 +102,8 @@
           android:layout_toStartOf="@id/tv_bottom_total"
           android:fontFamily="sans-serif-light"
           android:text="@string/title_uncompleted"
-          android:textSize="18sp"/>
+          android:textSize="18sp"
+          android:textColor="@color/colorPrimary"/>
 
         <TextView
           android:id="@+id/tv_bottom_total"
@@ -110,7 +113,8 @@
           android:layout_alignParentEnd="true"
           android:fontFamily="sans-serif-light"
           android:textSize="18sp"
-          tools:text="9"/>
+          tools:text="9"
+          android:textColor="@color/colorPrimary"/>
 
       </RelativeLayout>
 
@@ -124,7 +128,10 @@
       android:src="@drawable/ic_reset"
       app:layout_constraintBottom_toBottomOf="@+id/bottom_layout"
       app:layout_constraintEnd_toStartOf="@+id/btn_add"
-      app:layout_constraintTop_toTopOf="@+id/bottom_layout"/>
+      app:layout_constraintTop_toTopOf="@+id/bottom_layout"
+      android:tint="@color/colorPrimary"
+      android:backgroundTint="@color/colorPrimaryDark"
+      app:borderWidth="0dp"/>
 
     <android.support.design.widget.FloatingActionButton
       android:id="@+id/btn_add"
@@ -134,7 +141,10 @@
       android:src="@drawable/ic_plus"
       app:layout_constraintBottom_toBottomOf="@+id/btn_reset"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="@+id/btn_reset"/>
+      app:layout_constraintTop_toTopOf="@+id/btn_reset"
+      android:tint="@color/colorPrimary"
+      android:backgroundTint="@color/colorPrimaryDark"
+      app:borderWidth="0dp"/>
 
   </android.support.constraint.ConstraintLayout>
 

@@ -1,24 +1,25 @@
 package com.example.catculate.ui.dialogs;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
-import android.content.DialogInterface.OnShowListener;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import com.afollestad.materialdialogs.MaterialDialog;
+import android.widget.ImageView;
 import com.example.catculate.Constants;
 import com.example.catculate.R;
-import timber.log.Timber;
 
 public class DialogPriceNew {
 
   private Context context;
   private int symbolic;
-  private MaterialDialog dialog = null;
+  private Dialog dialog = null;
   private DialogPriceNewCallback callback;
 
   public DialogPriceNew(Context context, int symbolic, DialogPriceNewCallback callback) {
@@ -31,61 +32,62 @@ public class DialogPriceNew {
 
     if (dialog == null) {
 
-      dialog = new MaterialDialog.Builder(context)
-          .customView(R.layout.dialog_add_minus, true)
-          .dismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dd) {
-              dialog = null;
+      dialog = new Dialog(context, R.style.AppDialog);
+      if (dialog.getWindow() != null) {
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+      }
+      dialog.setContentView(R.layout.dialog_spending_new);
+      dialog.setOnDismissListener(new OnDismissListener() {
+        @Override
+        public void onDismiss(DialogInterface dd) {
+          dialog = null;
+        }
+      });
+      dialog.show();
+
+      final EditText etDesc = dialog.findViewById(R.id.et_desc);
+      final EditText etPrice = dialog.findViewById(R.id.et_price);
+      ImageView ivCurrentSymbol = dialog.findViewById(R.id.iv_current_symbol);
+      ImageButton btnPlus = dialog.findViewById(R.id.btn_submit_plus);
+      ImageButton btnMinus = dialog.findViewById(R.id.btn_submit_minus);
+
+      ivCurrentSymbol.setVisibility(View.GONE);
+      btnPlus.setVisibility(View.GONE);
+
+      btnMinus.setBackground(symbolic == Constants.SYMBOLIC_ADD ?
+          context.getResources().getDrawable(R.drawable.button_background_plus) :
+          context.getResources().getDrawable(R.drawable.button_background_minus));
+
+      btnMinus.setImageDrawable(symbolic == Constants.SYMBOLIC_ADD ?
+          context.getResources().getDrawable(R.drawable.ic_plus) :
+          context.getResources().getDrawable(R.drawable.ic_remove));
+
+      btnMinus.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+          String desc = etDesc.getText().toString();
+          String price = etPrice.getText().toString();
+
+          if (!TextUtils.isEmpty(desc) && !TextUtils.isEmpty(price)) {
+
+            if (dialog != null && dialog.isShowing()) {
+              dialog.dismiss();
             }
-          })
-          .showListener(new OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dd) {
-              Timber.d("onShow");
 
-              final EditText etDesc = (EditText) dialog.findViewById(R.id.et_desc);
-              final EditText etPrice = (EditText) dialog.findViewById(R.id.et_price);
-              ImageButton btnSubmit = (ImageButton) dialog.findViewById(R.id.btn_submit);
+            callback.onClick(desc, price, symbolic);
 
-              btnSubmit.setBackground(symbolic == Constants.SYMBOLIC_ADD ?
-                  context.getResources().getDrawable(R.drawable.button_background_plus) :
-                  context.getResources().getDrawable(R.drawable.button_background_minus));
-
-              btnSubmit.setImageDrawable(symbolic == Constants.SYMBOLIC_ADD ?
-                  context.getResources().getDrawable(R.drawable.ic_plus) :
-                  context.getResources().getDrawable(R.drawable.ic_remove));
-
-              btnSubmit.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                  String desc = etDesc.getText().toString();
-                  String price = etPrice.getText().toString();
-
-                  if (!TextUtils.isEmpty(desc) && !TextUtils.isEmpty(price)) {
-
-                    if (dialog != null && dialog.isShowing()) {
-                      dialog.dismiss();
-                    }
-
-                    callback.onClick(desc, price, symbolic);
-
-                  } else {
-                    if (TextUtils.isEmpty(desc)) {
-                      etDesc.setError("Please enter description!");
-                    }
-
-                    if (TextUtils.isEmpty(price)) {
-                      etPrice.setError("Please enter price!");
-                    }
-                  }
-                }
-              });
-
+          } else {
+            if (TextUtils.isEmpty(desc)) {
+              etDesc.setError("Please enter description!");
             }
-          })
-          .show();
+
+            if (TextUtils.isEmpty(price)) {
+              etPrice.setError("Please enter price!");
+            }
+          }
+        }
+      });
 
     }
 

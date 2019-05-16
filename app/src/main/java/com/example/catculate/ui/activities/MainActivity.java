@@ -118,12 +118,12 @@ public class MainActivity extends BaseActivity implements MainActivityContract.V
     if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
       Window window = this.getWindow();
       window.addFlags(LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+      window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
     }
 
     openFirstFragment();
 
-    toolbarTitle.setText(currentFragment.getClass().getSimpleName());
+    toolbarTitle.setText("CAT");
 
     bottomNavigation.setOnNavigationItemSelectedListener(
         new OnNavigationItemSelectedListener() {

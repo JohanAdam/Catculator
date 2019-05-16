@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="colorPrimary">#35605a</color>
-  <color name="colorPrimaryDark">#00120b</color>
-  <color name="colorAccent">#6b818c</color>
-  <color name="colorSecondary">#d8e4ff</color>
-  <color name="colorSubSecondary">#31e981</color>
+  <color name="colorPrimary">#383b40</color>
+  <color name="colorPrimaryDark">#6d9380</color>
+  <color name="colorAccent">#eaddd4</color>
+  <color name="colorSecondary">#dec59b</color>
+  <color name="colorSubSecondary">#faf8ec</color>
 
   <color name="color_btn_disable">#EEEEEE</color>
 
-  <color name="color_btn_plus_enable">#66BB6A</color>
-  <color name="color_btn_plus_pressed">#2E7D32</color>
+  <color name="color_btn_plus_enable">#81c784</color>
+  <color name="color_btn_plus_pressed">#388e3c</color>
 
-  <color name="color_btn_minus_enable">#EF5350</color>
-  <color name="color_btn_minus_pressed">#C62828</color>
+  <color name="color_btn_minus_enable">#ff8a80</color>
+  <color name="color_btn_minus_pressed">#ff5252</color>
+
+  <color name="transparent">#00ffffff</color>
 </resources>

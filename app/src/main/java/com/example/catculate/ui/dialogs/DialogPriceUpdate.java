@@ -1,26 +1,26 @@
 package com.example.catculate.ui.dialogs;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
-import android.content.DialogInterface.OnShowListener;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.catculate.Constants;
 import com.example.catculate.R;
 import com.example.catculate.data.entity.ValueItem;
-import timber.log.Timber;
 
 public class DialogPriceUpdate {
 
   private Context context;
   private ValueItem currentData;
-  private MaterialDialog dialog = null;
+  private Dialog dialog = null;
   private DialogPriceUpdateCallback callback;
 
   public DialogPriceUpdate(Context context, ValueItem item, DialogPriceUpdateCallback callback) {
@@ -36,48 +36,45 @@ public class DialogPriceUpdate {
       final String price = !TextUtils.isEmpty(String.valueOf(currentData.getValue())) ? String.valueOf(currentData.getValue()) : "0";
       final int symbolic = currentData.getSymbolic();
 
-      dialog = new MaterialDialog.Builder(context)
-          .customView(R.layout.dialog_add_minus_update, true)
-          .dismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dd) {
-              dialog = null;
-            }
-          })
-          .showListener(new OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dd) {
-              Timber.d("onShow");
+      dialog = new Dialog(context, R.style.AppDialog);
+      if (dialog.getWindow() != null) {
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+      }
+      dialog.setContentView(R.layout.dialog_spending_new);
+      dialog.setOnDismissListener(new OnDismissListener() {
+        @Override
+        public void onDismiss(DialogInterface dd) {
+          dialog = null;
+        }
+      });
+      dialog.show();
 
-              final EditText etDesc = (EditText) dialog.findViewById(R.id.et_desc);
-              final EditText etPrice = (EditText) dialog.findViewById(R.id.et_price);
-              ImageView ivCurrentSymbol = (ImageView) dialog.findViewById(R.id.iv_current_symbol);
-              ImageButton btnPlus = (ImageButton) dialog.findViewById(R.id.btn_plus);
-              ImageButton btnMinus = (ImageButton) dialog.findViewById(R.id.btn_minus);
+      final EditText etDesc = dialog.findViewById(R.id.et_desc);
+      final EditText etPrice = dialog.findViewById(R.id.et_price);
+      ImageView ivCurrentSymbol = dialog.findViewById(R.id.iv_current_symbol);
+      ImageButton btnPlus = dialog.findViewById(R.id.btn_submit_plus);
+      ImageButton btnMinus = dialog.findViewById(R.id.btn_submit_minus);
 
-              ivCurrentSymbol.setAlpha(0.4f);
-              ivCurrentSymbol.setImageDrawable(context.getResources().getDrawable(symbolic == Constants.SYMBOLIC_ADD ? R.drawable.ic_plus : R.drawable.ic_remove));
+      ivCurrentSymbol.setAlpha(0.4f);
+      ivCurrentSymbol.setImageDrawable(context.getResources().getDrawable(symbolic == Constants.SYMBOLIC_ADD ? R.drawable.ic_plus : R.drawable.ic_remove));
 
-              etDesc.setText(desc);
-              etPrice.setText(price);
+      etDesc.setText(desc);
+      etPrice.setText(price);
 
-              btnPlus.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  onClickFunction(etDesc, etPrice, Constants.SYMBOLIC_ADD, callback);
-                }
-              });
+      btnPlus.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          onClickFunction(etDesc, etPrice, Constants.SYMBOLIC_ADD, callback);
+        }
+      });
 
-              btnMinus.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  onClickFunction(etDesc, etPrice, Constants.SYMBOLIC_MINUS, callback);
-                }
-              });
+      btnMinus.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          onClickFunction(etDesc, etPrice, Constants.SYMBOLIC_MINUS, callback);
+        }
+      });
 
-            }
-          })
-          .show();
 
     }
 

@@ -19,7 +19,7 @@
     android:text="TITLE"
     android:textSize="19.8sp"
     android:textAllCaps="true"
-    android:textColor="@color/colorSubSecondary"
+    android:textColor="@color/colorPrimaryDark"
     android:visibility="visible"/>
 
 </android.support.v7.widget.Toolbar>
