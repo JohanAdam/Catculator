@@ -2,9 +2,16 @@ package com.example.catculate.services;
 
 import com.example.catculate.data.database.TodoDatabase;
 import com.example.catculate.data.entity.Todo;
+import io.reactivex.Completable;
+import io.reactivex.CompletableObserver;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import timber.log.Timber;
 
+//https://proandroiddev.com/exploring-rxjava-in-android-different-types-of-observables-f23b3c78aeb6
 public class TodoService {
 
   TodoDatabase todoDatabase;
@@ -15,44 +22,65 @@ public class TodoService {
 
   /**
    * Get all from the db.
+   * @return the list of todoItem.
    */
-  public List<Todo> getAll() {
+  public void getAll(SingleObserver subscriber) {
     Timber.d("getAll");
-    return todoDatabase.todoDao().getAll();
+    Single<List<Todo>> single = todoDatabase.todoDao().getAll();
+    single.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(subscriber);
   }
 
   public void saveAll(List<Todo> list) {
     Timber.d("saveAll %s", list.size());
-    todoDatabase.todoDao().insertAll(list);
+//    Observable.just(list)
+//        .map((Func1<List<Todo>, Void>) todos -> {
+//          todoDatabase.todoDao().insertAll(todos);
+//          return null;
+//        })
+//        .subscribeOn(Schedulers.io())
+//        .observeOn(AndroidSchedulers.mainThread())
+//        .subscribe();
   }
 
   /**
    * Insert an item.
    */
-  public void saveItem(Todo item) {
+  public void saveItem(Todo item, CompletableObserver subscriber) {
     Timber.d("saveItem");
-    todoDatabase.todoDao().insertItem(item);
+    Completable.fromAction(() -> todoDatabase.todoDao().insertItem(item))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(subscriber);
   }
 
-  public void deleteItem(Todo item) {
+  public void deleteItem(Todo item, CompletableObserver subscriber) {
     Timber.d("deleteItem");
-    todoDatabase.todoDao().deleteItem(item);
+    Completable.fromAction(() -> todoDatabase.todoDao().deleteItem(item))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(subscriber);
   }
 
-  public void updateItem(Todo item) {
+  public void updateItem(Todo item, CompletableObserver subscriber) {
     Timber.d("updateItem");
-    todoDatabase.todoDao().updateItem(item);
+    Completable.fromAction(() -> todoDatabase.todoDao().updateItem(item))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(subscriber);
   }
 
-  public void reset() {
+  public void reset(CompletableObserver subscriber) {
     Timber.d("reset");
-    todoDatabase.todoDao().reset(false, true);
-//    return getAll();
+    Completable.fromAction(() -> todoDatabase.todoDao().reset(false, true))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(subscriber);
   }
 
   public void removeService() {
     Timber.d("removeService");
     TodoDatabase.destroyInstance();
   }
-
 }

@@ -1,7 +1,8 @@
 <resources>
 
   <!-- Base application theme. -->
-  <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+<!--  parent="Theme.AppCompat.Light.NoActionBar"-->
+  <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
     <!-- Customize your theme here. -->
     <item name="colorPrimary">@color/colorPrimary</item>
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -14,6 +15,19 @@
     <item name="colorControlNormal">#757575</item>
     <item name="colorControlActivated">@color/colorSecondary</item>
     <item name="colorControlHighlight">@color/colorSecondary</item>
+  </style>
+
+<!--  Style for Input Text Layout-->
+  <style name="TextInputLayoutMaterialStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <item name="android:textColorHint">@color/colorSubSecondary</item>
+    <item name="boxStrokeColor">@color/colorPrimaryDark</item>
+    <item name="hintTextColor">@color/colorSecondary</item>
+    <item name="startIconTint">@color/colorSecondary</item>
+  </style>
+
+<!--  Style for Edit Text-->
+  <style name="EditTextMaterialStyle">
+    <item name="android:textColor">@color/colorSecondary</item>
   </style>
 
   <style name="AppDialog" parent="Theme.AppCompat.Light.Dialog">

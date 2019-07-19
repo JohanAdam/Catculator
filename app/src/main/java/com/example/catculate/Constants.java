@@ -2,6 +2,10 @@ package com.example.catculate;
 
 public class Constants {
 
+  //Db Name.
+  public static String SPEND_DB_NAME = "valueitem-db";
+  public static String TODO_DB_NAME = "todo-db";
+
   public static int SYMBOLIC_ADD = 0;
   public static int SYMBOLIC_MINUS = 1;
 

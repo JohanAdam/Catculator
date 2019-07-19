@@ -58,6 +58,9 @@ public class DialogPriceUpdate {
       ivCurrentSymbol.setAlpha(0.4f);
       ivCurrentSymbol.setImageDrawable(context.getResources().getDrawable(symbolic == Constants.SYMBOLIC_ADD ? R.drawable.ic_plus : R.drawable.ic_remove));
 
+      btnPlus.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_plus));
+      btnMinus.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_remove));
+
       etDesc.setText(desc);
       etPrice.setText(price);
 

@@ -6,26 +6,24 @@ import android.content.DialogInterface.OnDismissListener;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback;
 import com.example.catculate.R;
-import com.example.catculate.data.entity.Todo;
 import com.example.catculate.mvp.presenter.MainActivityPresenter;
 import com.example.catculate.mvp.view.activities.MainActivityContract;
 import com.example.catculate.mvp.view.activities.MainActivityContract.Presenter;
@@ -36,8 +34,9 @@ import com.example.catculate.ui.fragments.CheckFragment;
 import com.example.catculate.ui.fragments.DashboardFragment;
 import com.example.catculate.ui.fragments.SpendingFragment;
 import com.example.catculate.utils.SharedPreferencesManager;
-import com.google.gson.Gson;
-import java.util.List;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
+import com.google.android.material.snackbar.Snackbar;
 import javax.inject.Inject;
 import timber.log.Timber;
 
@@ -52,6 +51,8 @@ public class MainActivity extends BaseActivity implements MainActivityContract.V
   Toolbar toolbar;
   @BindView(R.id.bottomNavigation)
   BottomNavigationView bottomNavigation;
+  @BindView(R.id.middleLayout)
+  CoordinatorLayout middleLayout;
 
   ProgressDialog progressDialog = null;
   MaterialDialog infoDialog = null;
@@ -80,9 +81,9 @@ public class MainActivity extends BaseActivity implements MainActivityContract.V
     initView();
 
 //    presenter.seedExampleData();
-    List<Todo> list = new TodoService().getAll();
-    Timber.d("Local list is size " + list.size());
-    Timber.d("Local list is " + new Gson().toJson(list));
+//    List<Todo> list = new TodoService().getAll();
+//    Timber.d("Local list is size " + list.size());
+//    Timber.d("Local list is " + new Gson().toJson(list));
 
   }
 
@@ -147,6 +148,10 @@ public class MainActivity extends BaseActivity implements MainActivityContract.V
           }
         }
     );
+  }
+
+  public void showSnackBar(String msg) {
+    Snackbar.make(middleLayout, msg, Snackbar.LENGTH_SHORT).show();
   }
 
   private void openFirstFragment() {

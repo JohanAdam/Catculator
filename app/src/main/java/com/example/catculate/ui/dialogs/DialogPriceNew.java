@@ -1,12 +1,12 @@
 package com.example.catculate.ui.dialogs;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -14,15 +14,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import com.example.catculate.Constants;
 import com.example.catculate.R;
+import com.example.catculate.ui.activities.MainActivity;
+import com.example.catculate.utils.Utils;
 
 public class DialogPriceNew {
 
-  private Context context;
+  private MainActivity context;
   private int symbolic;
   private Dialog dialog = null;
   private DialogPriceNewCallback callback;
 
-  public DialogPriceNew(Context context, int symbolic, DialogPriceNewCallback callback) {
+  public DialogPriceNew(MainActivity context, int symbolic, DialogPriceNewCallback callback) {
     this.context = context;
     this.symbolic = symbolic;
     this.callback = callback;
@@ -89,6 +91,19 @@ public class DialogPriceNew {
         }
       });
 
+      etPrice.setOnKeyListener(new View.OnKeyListener() {
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+          // If the event is a key-down event on the "enter" button
+          if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+              (keyCode == KeyEvent.KEYCODE_ENTER)) {
+
+            // Perform action on key press
+            new Utils(context).hideKeyboard(etPrice);
+            return true;
+          }
+          return false;
+        }
+      });
     }
 
   }

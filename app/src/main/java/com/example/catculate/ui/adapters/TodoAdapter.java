@@ -1,7 +1,7 @@
 package com.example.catculate.ui.adapters;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +23,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
   private final CheckFragment fragment;
   private List<Todo> todoList;
   private int state;
+  private boolean onBind;
 
   public TodoAdapter(CheckFragment activity, List<Todo> responses, int state) {
     this.fragment = activity;
@@ -54,17 +55,20 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     holder.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        //Edit checked value.
-        data.setChecked(isChecked);
-        //Update.
-        fragment.getPresenter().updateItem(data);
-        //Remove from list.
-        todoList.remove(holder.getAdapterPosition());
-        //Remove from adapter.
-        notifyItemRemoved(holder.getAdapterPosition());
+        if (!onBind) {
+          //Edit checked value.
+          data.setChecked(isChecked);
+          //Update.
+          fragment.getPresenter().updateItem(data);
+          //Remove from list.
+          todoList.remove(holder.getAdapterPosition());
+          //Remove from adapter.
+          notifyItemRemoved(holder.getAdapterPosition());
 
-        long newTotal = Long.parseLong(fragment.tvBottomTotal.getText().toString()) + 1;
-        fragment.tvBottomTotal.setText(String.valueOf(newTotal));
+
+          long newTotal = Long.parseLong(fragment.tvBottomTotal.getText().toString()) + 1;
+          fragment.tvBottomTotal.setText(String.valueOf(newTotal));
+        }
       }
     });
 
@@ -127,7 +131,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     void bind(final Todo data) {
       tvDesc.setText(data.getDescrip());
       tvPrice.setText(String.valueOf(data.getValue()));
+
+      onBind = true;
       checkBox.setChecked(data.isChecked());
+      onBind = false;
     }
   }
 }

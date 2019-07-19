@@ -13,9 +13,15 @@ public interface CheckFragmentContract {
 
     void removeWait();
 
+    void showLoading();
+
+    void removeLoading();
+
     void showEmptyLayout();
 
     void removeEmptyLayout();
+
+    void showToast(String msg);
 
     void addListUncompletedToView(List<Todo> unCompletedList,
         int completedTotal);
@@ -40,6 +46,10 @@ public interface CheckFragmentContract {
     void unSubscribe();
 
     void reset(int state);
+  }
+
+  interface GetAllTodoCallback {
+    void onCompleted(List<Todo> result);
   }
 
 }

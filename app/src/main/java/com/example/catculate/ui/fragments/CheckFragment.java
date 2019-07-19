@@ -3,15 +3,15 @@ package com.example.catculate.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -24,6 +24,7 @@ import com.example.catculate.mvp.view.fragments.CheckFragmentContract;
 import com.example.catculate.mvp.view.fragments.CheckFragmentContract.Presenter;
 import com.example.catculate.ui.activities.MainActivity;
 import com.example.catculate.ui.adapters.TodoAdapter;
+import com.example.catculate.ui.dialogs.DialogLoading;
 import com.example.catculate.ui.dialogs.DialogTodo;
 import com.example.catculate.ui.dialogs.DialogTodo.DialogTodoCallback;
 import com.example.catculate.utils.RecyclerViewAnimation;
@@ -51,6 +52,7 @@ public class CheckFragment extends Fragment implements CheckFragmentContract.Vie
   Presenter presenter;
   TodoAdapter mAdapter;
   DialogTodo dialogTodo;
+  DialogLoading dialogLoading;
 
   public CheckFragment() {
     // Required empty public constructor
@@ -85,6 +87,7 @@ public class CheckFragment extends Fragment implements CheckFragmentContract.Vie
   @Override
   public void onDestroyView() {
     super.onDestroyView();
+    presenter.unSubscribe();
     unbinder.unbind();
   }
 
@@ -110,6 +113,17 @@ public class CheckFragment extends Fragment implements CheckFragmentContract.Vie
     rvMain.setVisibility(View.VISIBLE);
   }
 
+  @Override
+  public void showLoading() {
+    dialogLoading = new DialogLoading(activity);
+    dialogLoading.show();
+  }
+
+  @Override
+  public void removeLoading() {
+    dialogLoading.dismiss();
+  }
+
   //TODO make empty layout.
   @Override
   public void showEmptyLayout() {
@@ -119,6 +133,11 @@ public class CheckFragment extends Fragment implements CheckFragmentContract.Vie
   @Override
   public void removeEmptyLayout() {
 
+  }
+
+  @Override
+  public void showToast(String msg) {
+    activity.showSnackBar(msg);
   }
 
   @Override

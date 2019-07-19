@@ -1,11 +1,12 @@
 package com.example.catculate.data.dao;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Update;
 import com.example.catculate.data.entity.Todo;
+import io.reactivex.Single;
 import java.util.List;
 
 @Dao
@@ -13,7 +14,7 @@ public interface TodoDao {
 
   //Get all.
   @Query("SELECT * FROM todo ORDER BY id DESC")
-  List<Todo> getAll();
+  Single<List<Todo>> getAll();
 
   @Insert
   void insertAll(List<Todo> list);
@@ -33,6 +34,4 @@ public interface TodoDao {
   //Reset all.
   @Query("UPDATE todo SET isCheck = :isCheckNew WHERE isCheck = :isCheckPrevious")
   void reset(boolean isCheckNew, boolean isCheckPrevious);
-
-
 }

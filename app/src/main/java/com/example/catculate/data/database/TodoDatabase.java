@@ -1,13 +1,14 @@
 package com.example.catculate.data.database;
 
-import android.arch.persistence.db.SupportSQLiteOpenHelper;
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.DatabaseConfiguration;
-import android.arch.persistence.room.InvalidationTracker;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.room.Database;
+import androidx.room.DatabaseConfiguration;
+import androidx.room.InvalidationTracker;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import com.example.catculate.App;
+import com.example.catculate.Constants;
 import com.example.catculate.data.dao.TodoDao;
 import com.example.catculate.data.entity.Todo;
 
@@ -19,12 +20,16 @@ public abstract class TodoDatabase extends RoomDatabase {
   public abstract TodoDao todoDao();
 
   public static TodoDatabase getDatabase() {
+
     if (INSTANCE == null) {
-      INSTANCE = Room.databaseBuilder(App.getApp(),
-          TodoDatabase.class,
-          "todo-db")
-          .allowMainThreadQueries()
-          .build();
+      synchronized (TodoDatabase.class) {
+        if (INSTANCE == null) {
+          INSTANCE = Room.databaseBuilder(App.getApp(),
+              TodoDatabase.class,
+              Constants.TODO_DB_NAME)
+              .build();
+        }
+      }
     }
     return INSTANCE;
   }
