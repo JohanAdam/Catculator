@@ -45,7 +45,7 @@ public interface CheckFragmentContract {
 
     void unSubscribe();
 
-    void reset(int state);
+    void reset();
   }
 
   interface GetAllTodoCallback {

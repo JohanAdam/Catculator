@@ -21,6 +21,8 @@ public class CheckPresenter implements Presenter {
   private TodoService dbService;
   private CompositeDisposable disposables;
 
+  private int currentState;
+
   public CheckPresenter(View view) {
     this.view = view;
   }
@@ -42,6 +44,8 @@ public class CheckPresenter implements Presenter {
     Timber.d("GetAll Todo List");
 
     view.showWait();
+
+    this.currentState = state;
 
     dbService.getAll(
         new SingleObserver<List<Todo>>() {
@@ -86,7 +90,7 @@ public class CheckPresenter implements Presenter {
           @Override
           public void onError(Throwable e) {
             // show an error message.
-            Timber.e("onError");
+
             e.printStackTrace();
             view.removeWait();
             view.showEmptyLayout();
@@ -111,8 +115,13 @@ public class CheckPresenter implements Presenter {
       public void onComplete() {
         Timber.d("onSuccess");
         view.removeLoading();
+
         //Insert in adapter.
-        view.insertNewItem(item);
+        //If current state is incomplete, add item to view.
+        if (currentState == Constants.STATE_INCOMPLETED) {
+          //This is because , new item added is always incompleted.
+          view.insertNewItem(item);
+        }
       }
 
       @Override
@@ -181,7 +190,7 @@ public class CheckPresenter implements Presenter {
   }
 
   @Override
-  public void reset(int state) {
+  public void reset() {
     Timber.d("Reset");
     view.showLoading();
 
@@ -195,7 +204,9 @@ public class CheckPresenter implements Presenter {
       public void onComplete() {
         Timber.d("onCompleted");
         view.removeLoading();
-        getAll(state);
+
+        //Reset all to incomplete, and show incompleted list.
+        getAll(Constants.STATE_INCOMPLETED);
       }
 
       @Override

@@ -183,7 +183,7 @@ public class CheckFragment extends Fragment implements CheckFragmentContract.Vie
         presenter.getAll(tvTitle.getText().equals(getResources().getString(R.string.title_completed)) ? Constants.STATE_INCOMPLETED : Constants.STATE_COMPLETED);
         break;
       case R.id.btn_reset:
-        presenter.reset(Constants.STATE_INCOMPLETED);
+        presenter.reset();
         break;
       case R.id.btn_add:
         showDialogNew();

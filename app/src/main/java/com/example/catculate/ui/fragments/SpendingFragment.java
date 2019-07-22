@@ -1,6 +1,7 @@
 package com.example.catculate.ui.fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -59,6 +60,7 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
   SpendingAdapter mAdapter;
   DialogPriceNew dialogPriceNew;
   DialogPriceUpdate dialogPriceUpdate;
+  ProgressDialog progressDialog;
 
   public SpendingFragment() {
     // Required empty public constructor
@@ -127,6 +129,23 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
     recyclerView.setVisibility(View.VISIBLE);
   }
 
+  @Override
+  public void showLoadingDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(activity);
+      progressDialog.setMessage("Loading...");
+      progressDialog.setCancelable(false);
+      progressDialog.show();
+    }
+  }
+
+  @Override
+  public void removeLoadingDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
+  }
+
   //TODO Make error layout.
   @Override
   public void showErrorLayout() {
@@ -146,7 +165,12 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
   }
 
   @Override
-  public void setTotal(long total) {
+  public void showSnackbar(String msg) {
+    activity.showSnackBar(msg);
+  }
+
+  @Override
+  public void setTotal(String total) {
 //    String totalPrice = new PriceHelper().formatPrice(total);
     String totalPrice = String.valueOf(total);
     tvTotal.setText(totalPrice);

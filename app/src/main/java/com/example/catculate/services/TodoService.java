@@ -24,12 +24,12 @@ public class TodoService {
    * Get all from the db.
    * @return the list of todoItem.
    */
-  public void getAll(SingleObserver subscriber) {
+  public void getAll(SingleObserver observer) {
     Timber.d("getAll");
     Single<List<Todo>> single = todoDatabase.todoDao().getAll();
     single.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(subscriber);
+        .subscribe(observer);
   }
 
   public void saveAll(List<Todo> list) {

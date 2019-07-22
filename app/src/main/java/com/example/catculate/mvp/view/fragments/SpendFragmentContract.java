@@ -13,6 +13,10 @@ public interface SpendFragmentContract {
 
     void removeWait();
 
+    void showLoadingDialog();
+
+    void removeLoadingDialog();
+
     void showErrorLayout();
 
     void removeErrorLayout();
@@ -21,11 +25,13 @@ public interface SpendFragmentContract {
 
     void removeEmptyLayout();
 
+    void showSnackbar(String msg);
+
     void addListToView(List<ValueItem> list);
 
     void insertNewItem(ValueItem valueItem);
 
-    void setTotal(long total);
+    void setTotal(String total);
   }
 
   interface Presenter {

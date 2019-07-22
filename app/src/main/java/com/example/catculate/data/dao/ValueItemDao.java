@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 import com.example.catculate.data.entity.ValueItem;
+import io.reactivex.Single;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public interface ValueItemDao {
 
   //Show all valueItems.
   @Query("SELECT * FROM valueitem ORDER BY id DESC")
-  List<ValueItem> getAll();
+  Single<List<ValueItem>> getAll();
 
   //Insert all item.
   @Insert
@@ -40,11 +41,11 @@ public interface ValueItemDao {
   void updateItem(ValueItem valueItem);
 
   //Update by query.
-  @Query("UPDATE valueitem SET description = :newDesc, value = :newValue, symbolic = :newSymbol WHERE id = :id")
-  void updateItem(int id, String newDesc, String newValue, int newSymbol);
+//  @Query("UPDATE valueitem SET description = :newDesc, value = :newValue, symbolic = :newSymbol WHERE id = :id")
+//  void updateItem(int id, String newDesc, String newValue, int newSymbol);
 
   //Get sum total.
   @Query("SELECT SUM(value) FROM valueitem WHERE symbolic = :symbol")
-  long getSum(int symbol);
+  Single<Long> getSum(int symbol);
 
 }
