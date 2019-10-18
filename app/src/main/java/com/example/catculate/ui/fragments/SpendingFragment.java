@@ -3,17 +3,22 @@ package com.example.catculate.ui.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,6 +30,7 @@ import com.example.catculate.mvp.presenter.SpendingPresenter;
 import com.example.catculate.mvp.view.fragments.SpendFragmentContract;
 import com.example.catculate.mvp.view.fragments.SpendFragmentContract.Presenter;
 import com.example.catculate.ui.activities.MainActivity;
+import com.example.catculate.ui.activities.SpendSettingActivity;
 import com.example.catculate.ui.adapters.SpendingAdapter;
 import com.example.catculate.ui.dialogs.DialogPriceNew;
 import com.example.catculate.ui.dialogs.DialogPriceNew.DialogPriceNewCallback;
@@ -52,15 +58,15 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
   ProgressBar progressBar;
   @BindView(R.id.tv_date)
   TextView tvDate;
-  Unbinder unbinder;
+  private Unbinder unbinder;
 
-  View rootView;
-  MainActivity activity;
-  Presenter presenter;
-  SpendingAdapter mAdapter;
-  DialogPriceNew dialogPriceNew;
-  DialogPriceUpdate dialogPriceUpdate;
-  ProgressDialog progressDialog;
+  private View rootView;
+  private MainActivity activity;
+  private Presenter presenter;
+  private SpendingAdapter mAdapter;
+  private DialogPriceNew dialogPriceNew;
+  private DialogPriceUpdate dialogPriceUpdate;
+  private ProgressDialog progressDialog;
 
   public SpendingFragment() {
     // Required empty public constructor
@@ -115,6 +121,30 @@ public class SpendingFragment extends Fragment implements SpendFragmentContract.
     SimpleDateFormat df = new SimpleDateFormat("dd MMM");
     String formattedDate = df.format(c);
     tvDate.setText(formattedDate);
+
+    //Enable menu in toolbar.
+    setHasOptionsMenu(true);
+  }
+
+
+  @Override
+  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+    inflater.inflate(R.menu.spending_menu, menu);
+    super.onCreateOptionsMenu(menu, inflater);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    int id = item.getItemId();
+    switch (id){
+      case R.id.action_settings:
+//        activity.showSnackBar("Ta da");
+        Intent intent = new Intent(activity, SpendSettingActivity.class);
+        startActivity(intent);
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
   }
 
   @Override

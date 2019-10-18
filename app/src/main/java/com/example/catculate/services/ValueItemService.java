@@ -21,7 +21,7 @@ import timber.log.Timber;
 
 public class ValueItemService {
 
-  ValueItemDatabase valueItemDatabase;
+  private ValueItemDatabase valueItemDatabase;
 
   public ValueItemService() {
     valueItemDatabase = ValueItemDatabase.getDatabase();

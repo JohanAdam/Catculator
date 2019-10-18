@@ -19,16 +19,16 @@ public class ValueItem implements Parcelable {
 
   @PrimaryKey(autoGenerate = true)
   @NonNull
-  int id;
+  private int id;
 
   @ColumnInfo(name = "description")
-  String descrip;
+  private String descrip;
 
   @ColumnInfo(name = "symbolic")
-  int symbolic;
+  private int symbolic;
 
   @ColumnInfo(name = "value")
-  long value;
+  private long value;
 
   public ValueItem() {
 

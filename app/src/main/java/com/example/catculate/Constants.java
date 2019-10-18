@@ -4,6 +4,7 @@ public class Constants {
 
   //Db Name.
   public static String SPEND_DB_NAME = "valueitem-db";
+  public static String SPEND_TAG_DB_NAME = "spendtag-db";
   public static String TODO_DB_NAME = "todo-db";
 
   public static int SYMBOLIC_ADD = 0;

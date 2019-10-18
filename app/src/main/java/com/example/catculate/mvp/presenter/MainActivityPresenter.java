@@ -12,10 +12,10 @@ import timber.log.Timber;
 
 public class MainActivityPresenter implements Presenter {
 
-  SharedPreferencesManager sharedPrefs;
-  ValueItemService service;
-  TodoService todoService;
-  View view;
+  private SharedPreferencesManager sharedPrefs;
+  private ValueItemService service;
+  private TodoService todoService;
+  private View view;
 
   public MainActivityPresenter() {
   }

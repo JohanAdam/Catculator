@@ -11,4 +11,5 @@
   <string name="desc_button_minus">Button Minus</string>
   <string name="title_uncompleted">Uncompleted</string>
   <string name="title_completed">Completed</string>
+  <string name="action_title_settings">Settings</string>
 </resources>

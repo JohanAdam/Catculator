@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -152,6 +153,10 @@ public class MainActivity extends BaseActivity implements MainActivityContract.V
 
   public void showSnackBar(String msg) {
     Snackbar.make(middleLayout, msg, Snackbar.LENGTH_SHORT).show();
+  }
+
+  public void showToast(String msg) {
+    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
   }
 
   private void openFirstFragment() {
